@@ -28,7 +28,10 @@ To create an application like that, do the following:
  2. Go to the "Settings" tab of your app.
  3. Copy and write down your `App key` and `App secret`.
  4. Open a web browser and log into your Dropbox account (if it is not already).
- 5. Create an URL with your `App key` and open it in your browser: `https://www.dropbox.com/oauth2/authorize?client_id=<APP_KEY>&token_access_type=offline&response_type=code`.
+ 5. Create an URL with your `App key` and open it in your browser:
+```
+https://www.dropbox.com/oauth2/authorize?client_id=<APP_KEY>&token_access_type=offline&response_type=code
+```.
  6. Click on `Continue` to indicate that you are aware that you are connecting to a development application.
  7. Click on `Allow` to allow that the application have the mentioned permissions.
  8. Copy and write down the `Authorization code` shown in the box.
