@@ -12,9 +12,9 @@ The stricter permission settings is recommended, because it will limit the acces
 
 To create an application like that, do the following:
  1. Go to the [Dropbox New App Creation](https://www.dropbox.com/developers/apps/create/) page. Fill the information as following:
-   1. API: Scoped access
-   2. Access Type: App folder (
-   3. Name: <any> (it should be exclusive)
+   - API: Scoped access
+   - Access Type: App folder (
+   - Name: <any> (it should be exclusive)
  2. Go to the [My apps](https://www.dropbox.com/developers/apps/) page and enter in your recently created application page.
  3. Go to the "Permissions" tab of your app.
  4. Mark these two permissions:
