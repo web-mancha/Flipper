@@ -2,6 +2,8 @@
 
 This tutorial will explain how to create a BadUSB payload that is capable of uploading files to Dropbox by **automatically** generating temporary Access Tokens to be used on demand.
 
+It uses the Dropbox OAuth 2 API to create a **permanent Refresh Token** that is capable of creating **temporary Access Token**.
+
 This was inspired by the [ADV-Recon](https://github.com/I-Am-Jakoby/Flipper-Zero-BadUSB/tree/main/Payloads/Flip-ADV-Recon) script by [I-Am-Jakoby](https://github.com/I-Am-Jakoby).
 
 **NOTE**: be aware that if your payloads/scripts are compromised, it might be possible to identify the original Dropbox account. So we recommend using an anonymous or disposable Dropbox account to operate everything.
