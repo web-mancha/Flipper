@@ -1,8 +1,17 @@
-# Dropbox Configuration for BadUSB 
+# Dropbox Configuration for Uploading files with BadUSB 
 
 This tutorial will explain how to create a BadUSB payload that will run a remote script stored on the Web, which is capable of uploading files to a remote location. Both the _download_ of the script and the _file upload_ parts will use Dropbox. 
 
 **NOTE**: be aware that if your payloads/scripts are compromised, it might be possible to identify the original Dropbox account. So we recommend using an anonymous or disposable Dropbox account to operate everything.
+
+This was inspired by the [ADV-Recon](https://github.com/I-Am-Jakoby/Flipper-Zero-BadUSB/tree/main/Payloads/Flip-ADV-Recon) script by [I-Am-Jakoby](https://github.com/I-Am-Jakoby).
+
+## Motivation
+
+Until mid 2021, Dropbox allowed to create an "Access Token" that never expired. With a token like that, you could simply hardcode it on your script and the Dropbox upload would work. Since then, the "Access Token" that you create in the Apps Settings pages will expire after 4 hours. This requires that you keep recreating Dropbox tokens every time you want to use a payload.
+
+By using Dropbox's OAuth 2.0 API, this tutorial will demonstrate how to make an script that is capable of automatically generating "Autorization tokens", so that once the script is written you don't have to keep updating the credentials.
+
 
 ## Create a Dropbox Application
 
@@ -24,6 +33,9 @@ To create an application like that, do the following:
 
 ## Setup the Key of the Dropbox Application
 
+Now we will manually execute an OAuth 2.0 authentication flow to create some keys for us. 
+We will create a virtually permanent "Refresh Token" which will allow our script to automatically generate temporary "Access Token" every time it executes the payload.
+
  1. Go to the [My apps](https://www.dropbox.com/developers/apps/) page and enter in your recently created application page.
  2. Go to the "Settings" tab of your app.
  3. Copy and write down your "App key" (`<APP_KEY>`) and "App secret" (`APP_SECRET`).
@@ -44,6 +56,8 @@ curl https://api.dropbox.com/oauth2/token \
 ```
  10. Copy and write down write down the "Refresh token" (`<REFRESH_TOKEN>`) from the `"refresh_token"` key of the JSON response.
 
+As long as your Dropbox account keeps your App in the allow list, the "Refresh token" will be valid. 
+
 ## Prepare the PowerShell script
 
 The `.ps1` file is the PowerShell script that you want to run. It will create a local file, then upload it to Dropbox. To configure it do the following:
@@ -60,6 +74,8 @@ $MyRefreshToken = "<REFRESH_TOKEN>"
 ```
 https://www.dropbox.com/s/xxxxxxxxxxxx/my-file.ps1?dl=1
 ```
+
+Like previously mentioned, the "Refresh Token" will not expire, so you can keep your script unchanged, and every time it runs it will create and use a fresh and temporary "Access Token".
 
 ## Prepare the BadUSB payload
 
