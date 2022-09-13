@@ -1,19 +1,20 @@
 # Dropbox Configuration for Uploading files with BadUSB 
 
-This tutorial will explain how to create a BadUSB payload that will run a remote script stored on the Web, which is capable of uploading files to a remote location. Both the _download_ of the script and the _file upload_ parts will use Dropbox. 
-
-**NOTE**: be aware that if your payloads/scripts are compromised, it might be possible to identify the original Dropbox account. So we recommend using an anonymous or disposable Dropbox account to operate everything.
+This tutorial will explain how to create a BadUSB payload that is capable of uploading files to Dropbox by **automatically** generating temporary Access Tokens to be used on demand.
 
 This was inspired by the [ADV-Recon](https://github.com/I-Am-Jakoby/Flipper-Zero-BadUSB/tree/main/Payloads/Flip-ADV-Recon) script by [I-Am-Jakoby](https://github.com/I-Am-Jakoby).
 
+**NOTE**: be aware that if your payloads/scripts are compromised, it might be possible to identify the original Dropbox account. So we recommend using an anonymous or disposable Dropbox account to operate everything.
+
 ## Motivation
 
-Until mid 2021, Dropbox allowed to create an "Access Token" that never expired. With a token like that, you could simply hardcode it on your script and the Dropbox upload would work. Since then, the "Access Token" that you create in the Apps Settings pages will expire after 4 hours. This requires that you keep recreating Dropbox tokens every time you want to use a payload.
+Until mid 2021, Dropbox allowed to create an **"Access Token"** that never expired. With a token like that, you could simply hardcode it on your script and the Dropbox upload would work. Since then, the Access Token that you create in the Apps Settings pages will expire after 4 hours. This requires that you keep recreating Dropbox tokens every time you want to use a payload.
 
-By using Dropbox's OAuth 2.0 API, this tutorial will demonstrate how to make an script that is capable of automatically generating "Autorization tokens", so that once the script is written you don't have to keep updating the credentials.
+By using Dropbox's OAuth 2.0 API, this tutorial will demonstrate how to make an script that is capable of automatically generating Access Tokens on demand, so that once the script is written you don't have to keep updating the credentials.
 
+## Tutorial
 
-## Create a Dropbox Application
+### 1 - Create a Dropbox Application
 
 First we will create a personal Dropbox application that will have permissions onlly to _upload_ files to a _specific folder_.
 
@@ -31,7 +32,7 @@ To create an application like that, do the following:
    - `files.content.write`
  5. Click on the "Submit" button to update the app's permissions.
 
-## Setup the Key of the Dropbox Application
+### 2 - Setup the Key of the Dropbox Application
 
 Now we will manually execute an OAuth 2.0 authentication flow to create some keys for us. 
 We will create a virtually permanent "Refresh Token" which will allow our script to automatically generate temporary "Access Token" every time it executes the payload.
@@ -58,7 +59,7 @@ curl https://api.dropbox.com/oauth2/token \
 
 As long as your Dropbox account keeps your App in the allow list, the "Refresh token" will be valid. 
 
-## Prepare the PowerShell script
+### 3 - Prepare the PowerShell script
 
 The `.ps1` file is the PowerShell script that you want to run. It will create a local file, then upload it to Dropbox. To configure it do the following:
 
@@ -77,7 +78,7 @@ https://www.dropbox.com/s/xxxxxxxxxxxx/my-file.ps1?dl=1
 
 Like previously mentioned, the "Refresh Token" will not expire, so you can keep your script unchanged, and every time it runs it will create and use a fresh and temporary "Access Token".
 
-## Prepare the BadUSB payload
+### 4 - Prepare the BadUSB payload
 
 The `.txt` file is the BadUSB payload that will actually send the keystrokes. It will call the Windows run box and execute the remote PowerShell script. You have to specify the download URL of the PowerShell script inside the payload. Do the following:
 
