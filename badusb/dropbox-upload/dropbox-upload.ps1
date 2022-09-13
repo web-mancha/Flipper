@@ -58,6 +58,8 @@ $MyRefreshToken = "<REFRESH_TOKEN>"
 ################################################################################
 
 # Get Dropbox Access Token
+# NOTE: we suggest putting this on the beginning of the script, because if this process fail, 
+# the file upload will not be possible.
 $MyDropboxAccessToken = Dropbox-Get-TemporaryAccessToken $MyAppKey $MyAppSecret $MyRefreshToken
 
 # Specify Output File name and path
